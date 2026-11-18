@@ -36,6 +36,17 @@ if('IntersectionObserver' in window){
   io.observe(deck);
 }else{deck.classList.add('in')}
 
+/* Popup de confirmation */
+const thanks=document.getElementById('thanks');
+function showThanks(){
+  if(typeof thanks.showModal==='function')thanks.showModal();else thanks.setAttribute('open','');
+}
+thanks.querySelector('.x').addEventListener('click',()=>thanks.close());
+thanks.addEventListener('click',e=>{ /* clic en dehors de la carte = fermer */
+  const r=thanks.querySelector('.thanks-card').getBoundingClientRect();
+  if(e.clientX<r.left||e.clientX>r.right||e.clientY<r.top||e.clientY>r.bottom)thanks.close();
+});
+
 /* Formulaire */
 const form=document.getElementById('lead'),status=document.getElementById('status');
 const labels={nom:'votre nom',societe:'le nom de la société',pays:'le pays',tel:'un numéro de téléphone',email:'une adresse e-mail'};
@@ -55,20 +66,20 @@ form.addEventListener('submit',async e=>{
   if(bad.length){bad[0].focus();status.textContent='Vérifiez les champs signalés.';return}
   const data=Object.fromEntries(new FormData(form));
   const btn=form.querySelector('button');
+  const reset=()=>{form.reset();inputs.forEach(i=>{i.removeAttribute('aria-invalid');i.parentElement.querySelector('.err').textContent=''});status.textContent=''};
   if(FORM_ENDPOINT){
     btn.disabled=true;btn.textContent='Envoi…';
     try{
       const r=await fetch(FORM_ENDPOINT,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(data)});
       if(!r.ok)throw new Error(r.status);
-      form.reset();status.textContent='Demande envoyée. Notre équipe commerciale vous recontacte rapidement.';
+      reset();showThanks();
     }catch(err){status.textContent='Envoi impossible pour le moment. Réessayez ou écrivez à '+CONTACT_EMAIL+'.'}
     finally{btn.disabled=false;btn.textContent='Envoyer ma demande'}
     return;
   }
+  /* Sans API : la messagerie s’ouvre avec la demande pré-remplie, puis la confirmation s’affiche */
   const names={nom:'Nom complet',fonction:'Fonction',societe:'Société',pays:'Pays',ville:'Ville',categories:'Catégories distribuées',pdv:'Points de vente servis',zones:'Zones couvertes',tel:'Téléphone',email:'E-mail'};
   const body=Object.entries(data).map(([k,v])=>names[k]+' : '+(v||'—')).join('\n');
-  const href='mailto:'+CONTACT_EMAIL+'?subject='+encodeURIComponent('Candidature partenaire de distribution — '+data.societe)+'&body='+encodeURIComponent(body);
-  status.innerHTML='';status.append('Votre messagerie s’ouvre avec la demande pré-remplie. Rien ne s’ouvre ? ');
-  const a=document.createElement('a');a.href=href;a.textContent='Envoyer par e-mail';status.append(a);
-  window.location.href=href;
+  window.location.href='mailto:'+CONTACT_EMAIL+'?subject='+encodeURIComponent('Candidature partenaire de distribution — '+data.societe)+'&body='+encodeURIComponent(body);
+  reset();showThanks();
 });
