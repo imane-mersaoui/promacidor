@@ -1,5 +1,5 @@
 /* Point d’envoi du formulaire : renseigner l’URL de votre API (POST JSON).
-   Laissé vide, le formulaire ouvre la messagerie avec la demande pré-remplie. */
+   Laissé vide, le popup de confirmation s’affiche mais rien n’est envoyé. */
 const FORM_ENDPOINT = "";
 const CONTACT_EMAIL = "office@promasidor-dz.com";
 
@@ -77,9 +77,7 @@ form.addEventListener('submit',async e=>{
     finally{btn.disabled=false;btn.textContent='Envoyer ma demande'}
     return;
   }
-  /* Sans API : la messagerie s’ouvre avec la demande pré-remplie, puis la confirmation s’affiche */
-  const names={nom:'Nom complet',fonction:'Fonction',societe:'Société',pays:'Pays',ville:'Ville',categories:'Catégories distribuées',pdv:'Points de vente servis',zones:'Zones couvertes',tel:'Téléphone',email:'E-mail'};
-  const body=Object.entries(data).map(([k,v])=>names[k]+' : '+(v||'—')).join('\n');
-  window.location.href='mailto:'+CONTACT_EMAIL+'?subject='+encodeURIComponent('Candidature partenaire de distribution — '+data.societe)+'&body='+encodeURIComponent(body);
+  /* Sans API configurée : affichage de la confirmation uniquement (aucun envoi) */
+  console.warn('FORM_ENDPOINT vide : la demande n’est envoyée nulle part.',data);
   reset();showThanks();
 });
