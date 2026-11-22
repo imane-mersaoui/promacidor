@@ -22,9 +22,10 @@ img{max-width:100%;display:block}
 .script{font-family:var(--script);font-weight:400;text-transform:none;letter-spacing:0;color:var(--orange)}
 
 /* ---------- HERO ---------- */
-.hero{position:relative;background:var(--navy) url("../assets/images/hero.webp") center bottom/cover no-repeat;border-radius:0 0 clamp(28px,4vw,56px) clamp(28px,4vw,56px);overflow:hidden;width:100%;height:clamp(560px,57.5vw,100vh);color:#fff;text-align:center}
+.hero{position:relative;background:var(--navy) url("../assets/images/hero.webp") center bottom/cover no-repeat;border-radius:0 0 clamp(28px,4vw,56px) clamp(28px,4vw,56px);overflow:hidden;width:100%;height:clamp(600px,56.25vw,100vh);color:#fff;text-align:center}
 .hero-inner{position:relative;padding-top:clamp(20px,3vw,44px);display:flex;flex-direction:column;align-items:center}
 .logo{width:clamp(130px,12vw,180px);height:auto;aspect-ratio:440/214}
+.hero .logo{width:clamp(190px,17vw,280px)}
 .hero h1{margin:clamp(16px,2.6vw,40px) 0 0;font-weight:800;text-transform:uppercase;font-size:clamp(30px,3.9vw,58px);line-height:.98;letter-spacing:-.01em}
 .hero h1 .l1{display:block}
 .hero h1 .script{font-size:1.35em;margin-left:.08em;display:inline-block;transform:translateY(.08em) rotate(-4deg);line-height:.6}
@@ -180,7 +181,7 @@ img{max-width:100%;display:block}
 }
 @media (max-width:760px){
   .hero{height:auto;background-image:none;background:linear-gradient(180deg,#051C55 0%,#0A2F8E 60%,#1846B4 100%)}
-  .hero-m{display:block;width:130%;max-width:none;margin:18px 0 0 -15%;aspect-ratio:1000/440;object-fit:cover;object-position:center 88%;-webkit-mask-image:linear-gradient(180deg,transparent 0,#000 30%);mask-image:linear-gradient(180deg,transparent 0,#000 30%)}
+  .hero-m{display:block;width:130%;max-width:none;margin:18px 0 0 -15%;aspect-ratio:1000/380;object-fit:cover;object-position:center 72%;-webkit-mask-image:linear-gradient(180deg,transparent 0,#000 30%);mask-image:linear-gradient(180deg,transparent 0,#000 30%)}
   .hero{background:linear-gradient(180deg,#051C55 0%,#0A2F8E 55%,#103FA8 100%)}
   .brands{gap:16px 14px;flex-wrap:nowrap}
   .brands img{height:auto;max-height:28px;max-width:19%;object-fit:contain}

@@ -1,5 +1,5 @@
-﻿/* Point dâ€™envoi du formulaire : renseigner lâ€™URL de votre API (POST JSON).
-   Laissأ© vide, le popup de confirmation sâ€™affiche mais rien nâ€™est envoyأ©. */
+/* Point d’envoi du formulaire : renseigner l’URL de votre API (POST JSON).
+   Laissé vide, le popup de confirmation s’affiche mais rien n’est envoyé. */
 const FORM_ENDPOINT = "";
 const CONTACT_EMAIL = "office@promasidor-dz.com";
 
@@ -16,17 +16,17 @@ function activate(c,fromUser){
   if(fromUser){const h=c.querySelector('h3');h.setAttribute('tabindex','-1');h.focus({preventScroll:true})}
 }
 cards.forEach(c=>c.querySelector('.hit').addEventListener('click',()=>{
-  deck.classList.remove('auto'); /* lâ€™utilisateur prend la main : on arrأھte le dأ©filement */
+  deck.classList.remove('auto'); /* l’utilisateur prend la main : on arrête le défilement */
   activate(c,true);
 }));
-/* Dأ©filement auto : bureau uniquement, dأ©sactivأ© si lâ€™utilisateur rأ©duit les animations */
+/* Défilement auto : bureau uniquement, désactivé si l’utilisateur réduit les animations */
 const canAuto=matchMedia('(min-width:761px)').matches&&!matchMedia('(prefers-reduced-motion: reduce)').matches;
 deck.addEventListener('animationend',e=>{
   if(e.animationName!=='bar'||!deck.classList.contains('auto'))return;
   const i=cards.findIndex(c=>c.classList.contains('active'));
   activate(cards[(i+1)%cards.length],false);
 });
-/* Entrأ©e en أ©ventail quand la section arrive أ  lâ€™أ©cran */
+/* Entrée en éventail quand la section arrive à l’écran */
 if('IntersectionObserver' in window){
   const io=new IntersectionObserver(es=>{es.forEach(e=>{if(e.isIntersecting){
     deck.classList.add('in');
@@ -42,7 +42,7 @@ const FLAGS={"AO": "assets/flags/ao.svg", "BF": "assets/flags/bf.svg", "BI": "as
   const map=document.getElementById('map');if(!map)return;
   const pin=document.getElementById('pin'),img=pin.querySelector('img'),tn=pin.querySelector('b'),ts=pin.querySelector('em');
   const paths=[...map.querySelectorAll('.c[data-a2]')];
-  const LABEL={p:'Zone de prأ©sence',o:'Prochain marchأ©'};
+  const LABEL={p:'Zone de présence',o:'Prochain marché'};
   const home=paths.find(p=>p.dataset.a2==='DZ');
   let current=null;
   function show(p){
@@ -66,7 +66,7 @@ const FLAGS={"AO": "assets/flags/ao.svg", "BF": "assets/flags/bf.svg", "BI": "as
     p.addEventListener('focus',()=>show(p));
   });
   map.addEventListener('pointerleave',e=>{if(e.pointerType==='mouse')show(home)});
-  /* Lأ©gende : survol = aperأ§u, clic = filtre */
+  /* Légende : survol = aperçu, clic = filtre */
   const btns=[...document.querySelectorAll('.legend [data-f]')];
   btns.forEach(b=>{
     const f=b.dataset.f;
@@ -78,12 +78,12 @@ const FLAGS={"AO": "assets/flags/ao.svg", "BF": "assets/flags/bf.svg", "BI": "as
       if(on){b.classList.add('on');b.setAttribute('aria-pressed','true');map.dataset.focus=f}else delete map.dataset.focus;
     });
   });
-  /* Entrأ©e animأ©e quand la carte arrive أ  lâ€™أ©cran */
+  /* Entrée animée quand la carte arrive à l’écran */
   const start=()=>{
     map.classList.add('in');
     const delay=matchMedia('(prefers-reduced-motion: reduce)').matches?0:1500;
     setTimeout(()=>{pin.classList.add('on');show(home)},delay);
-    Object.values(FLAGS).forEach(u=>{const i=new Image();i.src=u}); /* prأ©charge les drapeaux */
+    Object.values(FLAGS).forEach(u=>{const i=new Image();i.src=u}); /* précharge les drapeaux */
   };
   if('IntersectionObserver' in window){
     const io=new IntersectionObserver(es=>{if(es.some(e=>e.isIntersecting)){start();io.disconnect()}},{threshold:.3});
@@ -104,13 +104,13 @@ thanks.addEventListener('click',e=>{ /* clic en dehors de la carte = fermer */
 
 /* Formulaire */
 const form=document.getElementById('lead'),status=document.getElementById('status');
-const labels={nom:'votre nom',societe:'le nom de la sociأ©tأ©',pays:'le pays',tel:'un numأ©ro de tأ©lأ©phone',email:'une adresse e-mail'};
+const labels={nom:'votre nom',societe:'le nom de la société',pays:'le pays',tel:'un numéro de téléphone',email:'une adresse e-mail'};
 function check(inp){
   const err=inp.parentElement.querySelector('.err');let msg='';
   const v=inp.value.trim();
   if(inp.required&&!v)msg='Indiquez '+(labels[inp.name]||'ce champ')+'.';
-  else if(inp.type==='email'&&v&&!/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(v))msg='Adresse e-mail incomplأ¨te, ex. : nom@societe.com';
-  else if(inp.type==='tel'&&v&&v.replace(/\D/g,'').length<8)msg='Numأ©ro trop court : au moins 8 chiffres.';
+  else if(inp.type==='email'&&v&&!/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(v))msg='Adresse e-mail incomplète, ex. : nom@societe.com';
+  else if(inp.type==='tel'&&v&&v.replace(/\D/g,'').length<8)msg='Numéro trop court : au moins 8 chiffres.';
   err.textContent=msg;inp.setAttribute('aria-invalid',msg?'true':'false');return !msg;
 }
 form.querySelectorAll('input').forEach(i=>i.addEventListener('blur',()=>{if(i.value||i.getAttribute('aria-invalid')==='true')check(i)}));
@@ -118,21 +118,21 @@ form.addEventListener('submit',async e=>{
   e.preventDefault();
   const inputs=[...form.querySelectorAll('input')];
   const bad=inputs.filter(i=>!check(i));
-  if(bad.length){bad[0].focus();status.textContent='Vأ©rifiez les champs signalأ©s.';return}
+  if(bad.length){bad[0].focus();status.textContent='Vérifiez les champs signalés.';return}
   const data=Object.fromEntries(new FormData(form));
   const btn=form.querySelector('button');
   const reset=()=>{form.reset();inputs.forEach(i=>{i.removeAttribute('aria-invalid');i.parentElement.querySelector('.err').textContent=''});status.textContent=''};
   if(FORM_ENDPOINT){
-    btn.disabled=true;btn.textContent='Envoiâ€¦';
+    btn.disabled=true;btn.textContent='Envoi…';
     try{
       const r=await fetch(FORM_ENDPOINT,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(data)});
       if(!r.ok)throw new Error(r.status);
       reset();showThanks();
-    }catch(err){status.textContent='Envoi impossible pour le moment. Rأ©essayez ou أ©crivez أ  '+CONTACT_EMAIL+'.'}
+    }catch(err){status.textContent='Envoi impossible pour le moment. Réessayez ou écrivez à '+CONTACT_EMAIL+'.'}
     finally{btn.disabled=false;btn.textContent='Envoyer ma demande'}
     return;
   }
-  /* Sans API configurأ©e : affichage de la confirmation uniquement (aucun envoi) */
-  console.warn('FORM_ENDPOINT vide : la demande nâ€™est envoyأ©e nulle part.',data);
+  /* Sans API configurée : affichage de la confirmation uniquement (aucun envoi) */
+  console.warn('FORM_ENDPOINT vide : la demande n’est envoyée nulle part.',data);
   reset();showThanks();
 });
