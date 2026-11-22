@@ -36,6 +36,61 @@ if('IntersectionObserver' in window){
   io.observe(deck);
 }else{deck.classList.add('in')}
 
+/* Carte interactive */
+const FLAGS={"AO": "assets/flags/ao.svg", "BF": "assets/flags/bf.svg", "BI": "assets/flags/bi.svg", "BJ": "assets/flags/bj.svg", "BW": "assets/flags/bw.svg", "CD": "assets/flags/cd.svg", "CF": "assets/flags/cf.svg", "CG": "assets/flags/cg.svg", "CI": "assets/flags/ci.svg", "CM": "assets/flags/cm.svg", "DJ": "assets/flags/dj.svg", "DZ": "assets/flags/dz.svg", "EG": "assets/flags/eg.svg", "ER": "assets/flags/er.svg", "ET": "assets/flags/et.svg", "GA": "assets/flags/ga.svg", "GH": "assets/flags/gh.svg", "GM": "assets/flags/gm.svg", "GN": "assets/flags/gn.svg", "GQ": "assets/flags/gq.svg", "GW": "assets/flags/gw.svg", "KE": "assets/flags/ke.svg", "KM": "assets/flags/km.svg", "LR": "assets/flags/lr.svg", "LS": "assets/flags/ls.svg", "LY": "assets/flags/ly.svg", "MA": "assets/flags/ma.svg", "MG": "assets/flags/mg.svg", "ML": "assets/flags/ml.svg", "MR": "assets/flags/mr.svg", "MW": "assets/flags/mw.svg", "MZ": "assets/flags/mz.svg", "NA": "assets/flags/na.svg", "NE": "assets/flags/ne.svg", "NG": "assets/flags/ng.svg", "RW": "assets/flags/rw.svg", "SD": "assets/flags/sd.svg", "SL": "assets/flags/sl.svg", "SN": "assets/flags/sn.svg", "SO": "assets/flags/so.svg", "SS": "assets/flags/ss.svg", "ST": "assets/flags/st.svg", "SZ": "assets/flags/sz.svg", "TD": "assets/flags/td.svg", "TG": "assets/flags/tg.svg", "TN": "assets/flags/tn.svg", "TZ": "assets/flags/tz.svg", "UG": "assets/flags/ug.svg", "ZA": "assets/flags/za.svg", "ZM": "assets/flags/zm.svg", "ZW": "assets/flags/zw.svg"};
+(function(){
+  const map=document.getElementById('map');if(!map)return;
+  const pin=document.getElementById('pin'),img=pin.querySelector('img'),tn=pin.querySelector('b'),ts=pin.querySelector('em');
+  const paths=[...map.querySelectorAll('.c[data-a2]')];
+  const LABEL={p:'Zone de présence',o:'Prochain marché'};
+  const home=paths.find(p=>p.dataset.a2==='MR');
+  let current=null;
+  function show(p){
+    if(!p||current===p)return;
+    if(current)current.classList.remove('is-hover');
+    current=p;p.classList.add('is-hover');
+    p.parentNode.appendChild(p); /* passe devant ses voisins */
+    const cx=+p.dataset.cx,cy=+p.dataset.cy;
+    pin.style.setProperty('--x',((cx-100)/800*100)+'%');
+    pin.style.setProperty('--y',(cy/1080*100)+'%');
+    pin.classList.toggle('left',cx>(map.clientWidth<480?470:620));
+    pin.dataset.s=p.dataset.s||'';
+    img.src=FLAGS[p.dataset.a2]||'';
+    tn.textContent=p.dataset.name;
+    ts.textContent=LABEL[p.dataset.s]||'';ts.hidden=!LABEL[p.dataset.s];
+    pin.classList.remove('pop');void pin.offsetWidth;pin.classList.add('pop');
+  }
+  paths.forEach(p=>{
+    p.addEventListener('pointerenter',e=>{if(e.pointerType==='mouse')show(p)});
+    p.addEventListener('click',()=>show(p));
+    p.addEventListener('focus',()=>show(p));
+  });
+  map.addEventListener('pointerleave',e=>{if(e.pointerType==='mouse')show(home)});
+  /* Légende : survol = aperçu, clic = filtre */
+  const btns=[...document.querySelectorAll('.legend [data-f]')];
+  btns.forEach(b=>{
+    const f=b.dataset.f;
+    b.addEventListener('pointerenter',()=>{map.dataset.focus=f});
+    b.addEventListener('pointerleave',()=>{const on=btns.find(x=>x.classList.contains('on'));if(on)map.dataset.focus=on.dataset.f;else delete map.dataset.focus});
+    b.addEventListener('click',()=>{
+      const on=!b.classList.contains('on');
+      btns.forEach(x=>{x.classList.remove('on');x.setAttribute('aria-pressed','false')});
+      if(on){b.classList.add('on');b.setAttribute('aria-pressed','true');map.dataset.focus=f}else delete map.dataset.focus;
+    });
+  });
+  /* Entrée animée quand la carte arrive à l’écran */
+  const start=()=>{
+    map.classList.add('in');
+    const delay=matchMedia('(prefers-reduced-motion: reduce)').matches?0:1500;
+    setTimeout(()=>{pin.classList.add('on');show(home)},delay);
+    Object.values(FLAGS).forEach(u=>{const i=new Image();i.src=u}); /* précharge les drapeaux */
+  };
+  if('IntersectionObserver' in window){
+    const io=new IntersectionObserver(es=>{if(es.some(e=>e.isIntersecting)){start();io.disconnect()}},{threshold:.3});
+    io.observe(map);
+  }else start();
+})();
+
 /* Popup de confirmation */
 const thanks=document.getElementById('thanks');
 function showThanks(){
