@@ -19,6 +19,16 @@ cards.forEach(c=>c.querySelector('.hit').addEventListener('click',()=>{
   deck.classList.remove('auto'); /* l’utilisateur prend la main : on arrête le défilement */
   activate(c,true);
 }));
+/* Survol : la carte s’ouvre dès que la souris passe dessus (le clic marche aussi) */
+let hoverT,lockUntil=0;
+cards.forEach(c=>{
+  c.addEventListener('mouseenter',()=>{
+    if(c.classList.contains('active')||Date.now()<lockUntil)return; /* pas de nouvelle ouverture pendant l’animation */
+    clearTimeout(hoverT);
+    hoverT=setTimeout(()=>{deck.classList.remove('auto');activate(c,false);lockUntil=Date.now()+450},100); /* petit délai : évite d’ouvrir les cartes simplement traversées */
+  });
+  c.addEventListener('mouseleave',()=>clearTimeout(hoverT));
+});
 /* Défilement auto : bureau uniquement, désactivé si l’utilisateur réduit les animations */
 const canAuto=matchMedia('(min-width:761px)').matches&&!matchMedia('(prefers-reduced-motion: reduce)').matches;
 deck.addEventListener('animationend',e=>{

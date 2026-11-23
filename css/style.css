@@ -118,7 +118,7 @@ img{max-width:100%;display:block}
 .deck{display:flex;height:clamp(380px,32vw,450px);margin:clamp(40px,5vw,72px) auto 0;max-width:1240px;text-align:left}
 .card{--c:#ccc;position:relative;flex:0 0 clamp(72px,7vw,100px);margin-left:-28px;border:0;border-radius:28px;background:var(--c);overflow:hidden;padding:0;color:#fff;box-shadow:-14px 0 28px -10px var(--shadow);transition:flex-grow .5s cubic-bezier(.6,.05,.25,1),flex-basis .5s cubic-bezier(.6,.05,.25,1)}
 .card:first-child{margin-left:0}
-.card.active{flex:1 1 auto}
+.card.active{flex-grow:1}
 .hit{position:absolute;inset:0;z-index:3;border:0;background:transparent;cursor:pointer;border-radius:inherit;padding:0}
 .card.active .hit{display:none}
 .card:not(.active):hover .thumb{transform:translateY(-50%) scale(1.04)}
