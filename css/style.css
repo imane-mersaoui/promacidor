@@ -43,7 +43,8 @@ img{max-width:100%;display:block}
 .marquee:hover .track{animation-play-state:paused}
 .track li{flex:none;padding:0 clamp(32px,4.5vw,72px)}
 .track img{height:clamp(40px,4vw,62px);width:auto;object-fit:contain;transition:transform .3s cubic-bezier(.3,1.5,.5,1)}
-.track img[data-b="Twisco"]{height:clamp(30px,3vw,46px)}
+.track img[data-b="Twisco"],.track img[data-b="Miksi"]{height:clamp(30px,3vw,46px)}
+.track img[data-b="Proma"]{height:clamp(46px,4.6vw,70px)}
 .track li:hover img{transform:scale(1.12) rotate(-3deg)}
 @keyframes marquee{to{transform:translateX(-50%)}}
 @media (prefers-reduced-motion:reduce){.track{animation:none;width:auto;flex-wrap:wrap;justify-content:center}.track li:nth-child(n+6){display:none}}
@@ -193,7 +194,8 @@ img{max-width:100%;display:block}
   .track{animation-duration:22s}
   .track li{padding:0 22px}
   .track img{height:34px}
-  .track img[data-b="Twisco"]{height:26px}
+  .track img[data-b="Twisco"],.track img[data-b="Miksi"]{height:26px}
+  .track img[data-b="Proma"]{height:40px}
   .deck{flex-direction:column;height:auto;gap:0}
   .card{flex:none;margin:-22px 0 0;height:96px;box-shadow:0 -12px 24px -10px var(--shadow);transition:height .45s cubic-bezier(.6,.05,.25,1)}
   .card:first-child{margin-top:0}
