@@ -30,7 +30,7 @@ cards.forEach(c=>{
   c.addEventListener('mouseleave',()=>clearTimeout(hoverT));
 });
 /* Défilement auto : bureau uniquement, désactivé si l’utilisateur réduit les animations */
-const canAuto=matchMedia('(min-width:761px)').matches&&!matchMedia('(prefers-reduced-motion: reduce)').matches;
+const canAuto=matchMedia('(min-width:1001px)').matches&&!matchMedia('(prefers-reduced-motion: reduce)').matches;
 deck.addEventListener('animationend',e=>{
   if(e.animationName!=='bar'||!deck.classList.contains('auto'))return;
   const i=cards.findIndex(c=>c.classList.contains('active'));
@@ -54,16 +54,30 @@ const FLAGS={"AO": "assets/flags/ao.svg", "BF": "assets/flags/bf.svg", "BI": "as
   const paths=[...map.querySelectorAll('.c[data-a2]')];
   const LABEL={p:'Zone de présence',o:'Prochain marché'};
   const home=paths.find(p=>p.dataset.a2==='DZ');
+  /* décalage des drapeaux (unités de la carte) pour coller à la maquette */
+  const OFF={TN:[6,-8],LY:[10,-38],EG:[0,-36],MR:[-8,-8]};
+  const pos=p=>{const o=OFF[p.dataset.a2]||[0,0];return [+p.dataset.cx+o[0],+p.dataset.cy+o[1]]};
+  /* drapeaux en verre posés en permanence sur les prochains marchés */
+  const glass=paths.filter(p=>p.dataset.s==='o').map((p,i)=>{
+    const [x,y]=pos(p);
+    const g=document.createElement('span');g.className='gpin';g.dataset.a2=p.dataset.a2;
+    g.style.setProperty('--x',((x-100)/800*100)+'%');g.style.setProperty('--y',(y/1080*100)+'%');g.style.setProperty('--k',i);
+    g.innerHTML='<span class="flag"><img alt=""></span>';g.querySelector('img').src=FLAGS[p.dataset.a2]||'';
+    g.setAttribute('aria-hidden','true');map.appendChild(g);return g;
+  });
   let current=null;
   function show(p){
     if(!p||current===p)return;
     if(current)current.classList.remove('is-hover');
     current=p;p.classList.add('is-hover');
     p.parentNode.appendChild(p); /* passe devant ses voisins */
-    const cx=+p.dataset.cx,cy=+p.dataset.cy;
+    const [cx,cy]=pos(p);
+    glass.forEach(g=>g.classList.toggle('hide',g.dataset.a2===p.dataset.a2));
     pin.style.setProperty('--x',((cx-100)/800*100)+'%');
     pin.style.setProperty('--y',(cy/1080*100)+'%');
-    pin.classList.toggle('left',cx>(map.clientWidth<480?470:620));
+    const below=cy<300; /* nord : l’étiquette passe sous le drapeau pour ne pas masquer les drapeaux voisins */
+    pin.classList.toggle('below',below);
+    pin.classList.toggle('left',!below&&cx>(map.clientWidth<480?470:620));
     pin.dataset.s=p.dataset.s||'';
     img.src=FLAGS[p.dataset.a2]||'';
     tn.textContent=p.dataset.name;
