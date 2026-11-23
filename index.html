@@ -40,12 +40,10 @@
 </header>
 
 <main>
-  <section class="wrap brands" aria-label="Nos marques">
-    <img loading="lazy" src="assets/images/logo_berbere.webp" alt="Le Berbère">
-    <img loading="lazy" src="assets/images/logo_loya.webp" alt="Loya">
-    <img loading="lazy" src="assets/images/logo_cowbell.webp" alt="Cowbell">
-    <img loading="lazy" src="assets/images/logo_amila.webp" alt="Amila">
-    <img loading="lazy" src="assets/images/logo_twisco.webp" alt="Twisco">
+  <section class="brands" aria-label="Nos marques">
+    <div class="marquee">
+      <ul class="track"><li><img loading="lazy" src="assets/images/logo_berbere.webp" alt="Le Berbère" data-b="Le Berbère"></li><li><img loading="lazy" src="assets/images/logo_loya.webp" alt="Loya" data-b="Loya"></li><li><img loading="lazy" src="assets/images/logo_cowbell.webp" alt="Cowbell" data-b="Cowbell"></li><li><img loading="lazy" src="assets/images/logo_amila.webp" alt="Amila" data-b="Amila"></li><li><img loading="lazy" src="assets/images/logo_twisco.webp" alt="Twisco" data-b="Twisco"></li><li><img loading="lazy" src="assets/images/logo_berbere.webp" alt="" aria-hidden="true" data-b="Le Berbère"></li><li><img loading="lazy" src="assets/images/logo_loya.webp" alt="" aria-hidden="true" data-b="Loya"></li><li><img loading="lazy" src="assets/images/logo_cowbell.webp" alt="" aria-hidden="true" data-b="Cowbell"></li><li><img loading="lazy" src="assets/images/logo_amila.webp" alt="" aria-hidden="true" data-b="Amila"></li><li><img loading="lazy" src="assets/images/logo_twisco.webp" alt="" aria-hidden="true" data-b="Twisco"></li><li><img loading="lazy" src="assets/images/logo_berbere.webp" alt="" aria-hidden="true" data-b="Le Berbère"></li><li><img loading="lazy" src="assets/images/logo_loya.webp" alt="" aria-hidden="true" data-b="Loya"></li><li><img loading="lazy" src="assets/images/logo_cowbell.webp" alt="" aria-hidden="true" data-b="Cowbell"></li><li><img loading="lazy" src="assets/images/logo_amila.webp" alt="" aria-hidden="true" data-b="Amila"></li><li><img loading="lazy" src="assets/images/logo_twisco.webp" alt="" aria-hidden="true" data-b="Twisco"></li><li><img loading="lazy" src="assets/images/logo_berbere.webp" alt="" aria-hidden="true" data-b="Le Berbère"></li><li><img loading="lazy" src="assets/images/logo_loya.webp" alt="" aria-hidden="true" data-b="Loya"></li><li><img loading="lazy" src="assets/images/logo_cowbell.webp" alt="" aria-hidden="true" data-b="Cowbell"></li><li><img loading="lazy" src="assets/images/logo_amila.webp" alt="" aria-hidden="true" data-b="Amila"></li><li><img loading="lazy" src="assets/images/logo_twisco.webp" alt="" aria-hidden="true" data-b="Twisco"></li></ul>
+    </div>
   </section>
 
   <section class="wrap presence">
@@ -168,6 +166,36 @@
           <p>Twisco donne du peps au lait du matin avec un goût chocolat que les enfants adorent, dans un pot facile à garder à portée de main.</p>
         </div>
       </div>
+      <div class="card" style="--c:#5B2614">
+        <button class="hit" type="button" aria-expanded="false" aria-label="Découvrir Proma"></button>
+        <img loading="lazy" class="thumb" src="assets/images/p_proma.webp" alt="">
+        <span class="tab">Proma</span>
+        <div class="body">
+          <h3>L’arôme du matin</h3>
+          <span class="disc"><img loading="lazy" src="assets/images/p_proma.webp" alt="Pot de café Proma"></span>
+          <p>Café instantané au goût riche, Proma accompagne les réveils et les pauses, prêt en quelques secondes dans un pot qui garde tout son arôme.</p>
+        </div>
+      </div>
+      <div class="card" style="--c:#3FA535">
+        <button class="hit" type="button" aria-expanded="false" aria-label="Découvrir Miksi"></button>
+        <img loading="lazy" class="thumb" src="assets/images/p_miksi.webp" alt="">
+        <span class="tab">Miksi</span>
+        <div class="body">
+          <h3>La douceur du lait au quotidien</h3>
+          <span class="disc"><img loading="lazy" src="assets/images/p_miksi.webp" alt="Boîte de lait en poudre Miksi"></span>
+          <p>Lait en poudre instantané, Miksi se dissout facilement et apporte une boisson lactée douce et onctueuse pour toute la famille.</p>
+        </div>
+      </div>
+      <div class="card" style="--c:#0099D6">
+        <button class="hit" type="button" aria-expanded="false" aria-label="Découvrir Onga"></button>
+        <img loading="lazy" class="thumb" src="assets/images/p_onga.webp" alt="">
+        <span class="tab">Onga</span>
+        <div class="body">
+          <h3>Le coup de main en cuisine</h3>
+          <span class="disc"><img loading="lazy" src="assets/images/p_onga.webp" alt="Sachet d’assaisonnement Onga"></span>
+          <p>Assaisonnement pour soupes et ragoûts, Onga relève les plats du quotidien avec un goût généreux, en sachets et en cubes pratiques.</p>
+        </div>
+      </div>
       <div class="card active" style="--c:#001489">
         <button class="hit" type="button" aria-expanded="true" aria-label="Découvrir Le Berbère"></button>
         <img loading="lazy" class="thumb" src="assets/images/p_berbere.webp" alt="">
@@ -186,11 +214,6 @@
       <div>
         <span class="chip"><span class="ic"><svg width="18" height="18" style="color:var(--blue)"><use href="#i-mail"/></svg></span>Devenir partenaire</span>
         <h2>Cette démarche s’adresse <span class="o">aux sociétés de distribution.</span> Il ne s’agit pas d’une offre d’emploi.</h2>
-        <div class="info">
-          <div class="row"><span class="ic"><svg width="22" height="22" style="color:var(--blue)"><use href="#i-phone"/></svg></span><span><a href="tel:+21325490497">+213 (025) 490 497</a><br><a href="tel:+21325490333">+213 (025) 490 333</a></span></div>
-          <div class="row"><span class="ic"><svg width="22" height="22" style="color:var(--blue)"><use href="#i-pin"/></svg></span><span>Blida, Algérie</span></div>
-          <div class="row mail"><span class="ic"><svg width="22" height="22" style="color:var(--blue)"><use href="#i-mail"/></svg></span><a href="mailto:office@promasidor-dz.com">office@promasidor-dz.com</a></div>
-        </div>
       </div>
 
       <form class="form" id="lead" novalidate>
