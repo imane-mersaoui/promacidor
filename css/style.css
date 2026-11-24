@@ -24,7 +24,7 @@ img{max-width:100%;display:block}
 /* ---------- HERO ---------- */
 .hero{position:relative;background:var(--navy) url("../assets/images/hero.webp") center bottom/cover no-repeat;border-radius:0 0 clamp(28px,4vw,56px) clamp(28px,4vw,56px);overflow:hidden;width:100%;height:clamp(600px,56.25vw,100vh);color:#fff;text-align:center}
 .hero-inner{position:relative;padding-top:clamp(40px,4.5vw,76px);display:flex;flex-direction:column;align-items:center}
-.logo{width:clamp(130px,12vw,180px);height:auto;aspect-ratio:440/214}
+.logo{width:clamp(130px,12vw,180px);height:auto}
 .hero .logo{width:clamp(220px,19vw,330px)}
 .hero h1{margin:clamp(14px,2vw,30px) 0 0;font-weight:800;text-transform:uppercase;font-size:clamp(30px,3.9vw,58px);line-height:.98;letter-spacing:-.01em}
 .hero h1 .l1{display:block}
@@ -67,7 +67,7 @@ img{max-width:100%;display:block}
 .legend .lo{color:var(--orange)} .legend .lo i{background:var(--orange)}
 .legend .lb{color:var(--blue-ink)}
 @media (prefers-color-scheme:dark){:root:not([data-theme="light"]) .legend .lb{color:var(--text)}}
-.map{--land:#EFEFEF;--land-h:#DDE6EF;position:relative;width:100%;max-width:640px;justify-self:end;aspect-ratio:800/1080}
+.map{--land:#D4D4D4;--land-h:#BFC8D2;position:relative;width:100%;max-width:640px;justify-self:end;aspect-ratio:800/1080}
 @media (prefers-color-scheme:dark){:root:not([data-theme="light"]) .map{--land:#1E2C48;--land-h:#2B3D62}}
 :root[data-theme="dark"] .map{--land:#1E2C48;--land-h:#2B3D62}
 .map svg{display:block;width:100%;height:100%;overflow:visible}

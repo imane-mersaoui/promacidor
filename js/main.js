@@ -47,7 +47,7 @@ if('IntersectionObserver' in window){
 }else{deck.classList.add('in')}
 
 /* Carte interactive */
-const FLAGS={"AO": "assets/flags/ao.svg", "BF": "assets/flags/bf.svg", "BI": "assets/flags/bi.svg", "BJ": "assets/flags/bj.svg", "BW": "assets/flags/bw.svg", "CD": "assets/flags/cd.svg", "CF": "assets/flags/cf.svg", "CG": "assets/flags/cg.svg", "CI": "assets/flags/ci.svg", "CM": "assets/flags/cm.svg", "DJ": "assets/flags/dj.svg", "DZ": "assets/flags/dz.svg", "EG": "assets/flags/eg.svg", "ER": "assets/flags/er.svg", "ET": "assets/flags/et.svg", "GA": "assets/flags/ga.svg", "GH": "assets/flags/gh.svg", "GM": "assets/flags/gm.svg", "GN": "assets/flags/gn.svg", "GQ": "assets/flags/gq.svg", "GW": "assets/flags/gw.svg", "KE": "assets/flags/ke.svg", "KM": "assets/flags/km.svg", "LR": "assets/flags/lr.svg", "LS": "assets/flags/ls.svg", "LY": "assets/flags/ly.svg", "MA": "assets/flags/ma.svg", "MG": "assets/flags/mg.svg", "ML": "assets/flags/ml.svg", "MR": "assets/flags/mr.svg", "MW": "assets/flags/mw.svg", "MZ": "assets/flags/mz.svg", "NA": "assets/flags/na.svg", "NE": "assets/flags/ne.svg", "NG": "assets/flags/ng.svg", "RW": "assets/flags/rw.svg", "SD": "assets/flags/sd.svg", "SL": "assets/flags/sl.svg", "SN": "assets/flags/sn.svg", "SO": "assets/flags/so.svg", "SS": "assets/flags/ss.svg", "ST": "assets/flags/st.svg", "SZ": "assets/flags/sz.svg", "TD": "assets/flags/td.svg", "TG": "assets/flags/tg.svg", "TN": "assets/flags/tn.svg", "TZ": "assets/flags/tz.svg", "UG": "assets/flags/ug.svg", "ZA": "assets/flags/za.svg", "ZM": "assets/flags/zm.svg", "ZW": "assets/flags/zw.svg"};
+const FLAGS={"AO": "assets/flags/ao.svg", "BF": "assets/flags/bf.svg", "BI": "assets/flags/bi.svg", "BJ": "assets/flags/bj.svg", "BW": "assets/flags/bw.svg", "CD": "assets/flags/cd.svg", "CF": "assets/flags/cf.svg", "CG": "assets/flags/cg.svg", "CI": "assets/flags/ci.svg", "CM": "assets/flags/cm.svg", "DJ": "assets/flags/dj.svg", "DZ": "assets/flags/dz.svg", "EG": "assets/flags/eg.svg", "EH": "assets/flags/eh.svg", "ER": "assets/flags/er.svg", "ET": "assets/flags/et.svg", "GA": "assets/flags/ga.svg", "GH": "assets/flags/gh.svg", "GM": "assets/flags/gm.svg", "GN": "assets/flags/gn.svg", "GQ": "assets/flags/gq.svg", "GW": "assets/flags/gw.svg", "KE": "assets/flags/ke.svg", "KM": "assets/flags/km.svg", "LR": "assets/flags/lr.svg", "LS": "assets/flags/ls.svg", "LY": "assets/flags/ly.svg", "MA": "assets/flags/ma.svg", "MG": "assets/flags/mg.svg", "ML": "assets/flags/ml.svg", "MR": "assets/flags/mr.svg", "MW": "assets/flags/mw.svg", "MZ": "assets/flags/mz.svg", "NA": "assets/flags/na.svg", "NE": "assets/flags/ne.svg", "NG": "assets/flags/ng.svg", "RW": "assets/flags/rw.svg", "SD": "assets/flags/sd.svg", "SL": "assets/flags/sl.svg", "SN": "assets/flags/sn.svg", "SO": "assets/flags/so.svg", "SS": "assets/flags/ss.svg", "ST": "assets/flags/st.svg", "SZ": "assets/flags/sz.svg", "TD": "assets/flags/td.svg", "TG": "assets/flags/tg.svg", "TN": "assets/flags/tn.svg", "TZ": "assets/flags/tz.svg", "UG": "assets/flags/ug.svg", "ZA": "assets/flags/za.svg", "ZM": "assets/flags/zm.svg", "ZW": "assets/flags/zw.svg"};
 (function(){
   const map=document.getElementById('map');if(!map)return;
   const pin=document.getElementById('pin'),img=pin.querySelector('img'),tn=pin.querySelector('b'),ts=pin.querySelector('em');
@@ -72,7 +72,10 @@ const FLAGS={"AO": "assets/flags/ao.svg", "BF": "assets/flags/bf.svg", "BI": "as
     current=p;p.classList.add('is-hover');
     p.parentNode.appendChild(p); /* passe devant ses voisins */
     const [cx,cy]=pos(p);
-    glass.forEach(g=>g.classList.toggle('hide',g.dataset.a2===p.dataset.a2));
+    glass.forEach(g=>{ /* masque le drapeau en verre du pays survolé, ou trop proche du drapeau principal */
+      const q=paths.find(x=>x.dataset.a2===g.dataset.a2),[gx,gy]=pos(q);
+      g.classList.toggle('hide',g.dataset.a2===p.dataset.a2||Math.hypot(gx-cx,gy-cy)<80);
+    });
     pin.style.setProperty('--x',((cx-100)/800*100)+'%');
     pin.style.setProperty('--y',(cy/1080*100)+'%');
     const below=cy<300; /* nord : l’étiquette passe sous le drapeau pour ne pas masquer les drapeaux voisins */
