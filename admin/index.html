@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow, noarchive">
+<meta name="referrer" content="no-referrer">
+<title>Administration — Promasidor</title>
+<link rel="stylesheet" href="admin.css">
+</head>
+<body>
+
+<!-- Connexion : étape 1 -->
+<main class="auth" id="view-login" hidden>
+  <form class="auth-card" id="form-login" novalidate autocomplete="on">
+    <img class="auth-logo" src="/assets/images/logo_promasidor.webp" alt="Promasidor" width="206" height="98">
+    <h1>Espace administration</h1>
+    <p class="muted">Accès réservé aux équipes Promasidor.</p>
+    <label for="login-email">E-mail</label>
+    <input id="login-email" name="email" type="email" autocomplete="username" required maxlength="160">
+    <label for="login-password">Mot de passe</label>
+    <input id="login-password" name="password" type="password" autocomplete="current-password" required maxlength="256">
+    <p class="form-error" role="alert" id="login-error"></p>
+    <button class="btn btn-primary" type="submit">Continuer</button>
+  </form>
+</main>
+
+<!-- Connexion : étape 2 (2FA) -->
+<main class="auth" id="view-2fa" hidden>
+  <form class="auth-card" id="form-2fa" novalidate>
+    <img class="auth-logo" src="/assets/images/logo_promasidor.webp" alt="Promasidor" width="206" height="98">
+    <h1>Vérification en deux étapes</h1>
+    <p class="muted">Saisissez le code à 6 chiffres affiché dans votre application d’authentification.</p>
+    <label for="totp">Code de vérification</label>
+    <input id="totp" name="code" inputmode="numeric" autocomplete="one-time-code" pattern="\d{6}" maxlength="6" required class="code-input">
+    <p class="form-error" role="alert" id="totp-error"></p>
+    <button class="btn btn-primary" type="submit">Valider</button>
+    <button class="btn btn-link" type="button" id="back-login">Retour</button>
+  </form>
+</main>
+
+<!-- Tableau de bord -->
+<div class="app" id="view-app" hidden>
+  <header class="topbar">
+    <img src="/assets/images/logo_promasidor.webp" alt="Promasidor" class="top-logo" width="120" height="57">
+    <nav class="tabs" aria-label="Sections">
+      <button class="tab is-on" data-tab="leads" type="button">Demandes</button>
+      <button class="tab" data-tab="audit" type="button" data-role="admin">Journal</button>
+      <button class="tab" data-tab="account" type="button">Mon compte</button>
+    </nav>
+    <div class="who"><span id="who-name"></span><span class="role" id="who-role"></span></div>
+    <button class="btn btn-ghost" id="logout" type="button">Déconnexion</button>
+  </header>
+
+  <section class="panel" id="tab-leads">
+    <div class="stats" id="stats"></div>
+    <div class="toolbar">
+      <input type="search" id="q" placeholder="Rechercher : nom, société, ville, e-mail…" maxlength="100" aria-label="Rechercher">
+      <select id="f-status" aria-label="Filtrer par statut">
+        <option value="">Tous les statuts</option>
+        <option value="nouveau">Nouveau</option>
+        <option value="en_cours">En cours</option>
+        <option value="retenu">Retenu</option>
+        <option value="refuse">Refusé</option>
+      </select>
+      <button class="btn btn-secondary" id="export" type="button" data-role="admin editeur">Exporter CSV</button>
+    </div>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Date</th><th>Société</th><th>Contact</th><th>Localisation</th><th>Statut</th><th></th></tr></thead>
+        <tbody id="rows"></tbody>
+      </table>
+      <p class="empty" id="empty" hidden>Aucune demande pour l’instant.</p>
+    </div>
+    <div class="pager"><button class="btn btn-ghost" id="prev" type="button">‹ Précédent</button><span id="page-info"></span><button class="btn btn-ghost" id="next" type="button">Suivant ›</button></div>
+  </section>
+
+  <section class="panel" id="tab-audit" hidden>
+    <h2>Journal d’activité</h2>
+    <p class="muted">Les 200 dernières actions sensibles : connexions, échecs, modifications, exports, suppressions.</p>
+    <div class="table-wrap"><table><thead><tr><th>Date</th><th>Utilisateur</th><th>Action</th><th>Cible</th><th>IP</th></tr></thead><tbody id="audit-rows"></tbody></table></div>
+  </section>
+
+  <section class="panel narrow" id="tab-account" hidden>
+    <h2>Changer mon mot de passe</h2>
+    <form id="form-pwd" novalidate>
+      <label for="pwd-current">Mot de passe actuel</label>
+      <input id="pwd-current" type="password" autocomplete="current-password" required maxlength="256">
+      <label for="pwd-next">Nouveau mot de passe</label>
+      <input id="pwd-next" type="password" autocomplete="new-password" required minlength="12" maxlength="256">
+      <p class="hint">12 caractères minimum, avec une majuscule, une minuscule, un chiffre et un caractère spécial.</p>
+      <p class="form-error" role="alert" id="pwd-error"></p>
+      <button class="btn btn-primary" type="submit">Mettre à jour</button>
+    </form>
+  </section>
+</div>
+
+<!-- Détail d'une demande -->
+<dialog class="drawer" id="drawer" aria-labelledby="d-title">
+  <form method="dialog" class="drawer-head"><h2 id="d-title"></h2><button class="x" aria-label="Fermer">×</button></form>
+  <dl class="detail" id="d-fields"></dl>
+  <div class="edit" data-role="admin editeur">
+    <label for="d-status">Statut</label>
+    <select id="d-status"><option value="nouveau">Nouveau</option><option value="en_cours">En cours</option><option value="retenu">Retenu</option><option value="refuse">Refusé</option></select>
+    <label for="d-note">Note interne</label>
+    <textarea id="d-note" rows="4" maxlength="4000"></textarea>
+    <p class="form-error" role="alert" id="d-error"></p>
+    <div class="drawer-actions">
+      <button class="btn btn-danger" id="d-delete" type="button" data-role="admin">Supprimer</button>
+      <button class="btn btn-primary" id="d-save" type="button">Enregistrer</button>
+    </div>
+  </div>
+</dialog>
+
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+<script src="admin.js" defer></script>
+</body>
+</html>

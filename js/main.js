@@ -1,6 +1,6 @@
 /* Point d’envoi du formulaire : renseigner l’URL de votre API (POST JSON).
    Laissé vide, le popup de confirmation s’affiche mais rien n’est envoyé. */
-const FORM_ENDPOINT = "";
+const FORM_ENDPOINT = (location.protocol === 'file:' || /github\.io$/.test(location.hostname)) ? '' : '/api/partenaires'; /* démo GitHub Pages : pas d’envoi */
 const CONTACT_EMAIL = "office@promasidor-dz.com";
 
 /* Cartes marques */
@@ -140,10 +140,10 @@ function check(inp){
   else if(inp.type==='tel'&&v&&v.replace(/\D/g,'').length<8)msg='Numéro trop court : au moins 8 chiffres.';
   err.textContent=msg;inp.setAttribute('aria-invalid',msg?'true':'false');return !msg;
 }
-form.querySelectorAll('input').forEach(i=>i.addEventListener('blur',()=>{if(i.value||i.getAttribute('aria-invalid')==='true')check(i)}));
+form.querySelectorAll('input:not(#website)').forEach(i=>i.addEventListener('blur',()=>{if(i.value||i.getAttribute('aria-invalid')==='true')check(i)}));
 form.addEventListener('submit',async e=>{
   e.preventDefault();
-  const inputs=[...form.querySelectorAll('input')];
+  const inputs=[...form.querySelectorAll('input:not(#website)')];
   const bad=inputs.filter(i=>!check(i));
   if(bad.length){bad[0].focus();status.textContent='Vérifiez les champs signalés.';return}
   const data=Object.fromEntries(new FormData(form));
@@ -153,9 +153,9 @@ form.addEventListener('submit',async e=>{
     btn.disabled=true;btn.textContent='Envoi…';
     try{
       const r=await fetch(FORM_ENDPOINT,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(data)});
-      if(!r.ok)throw new Error(r.status);
+      if(!r.ok){let m='';try{m=(await r.json()).error||''}catch(_){}throw new Error(m)}
       reset();showThanks();
-    }catch(err){status.textContent='Envoi impossible pour le moment. Réessayez ou écrivez à '+CONTACT_EMAIL+'.'}
+    }catch(err){status.textContent=err.message||('Envoi impossible pour le moment. Réessayez ou écrivez à '+CONTACT_EMAIL+'.')}
     finally{btn.disabled=false;btn.textContent='Envoyer ma demande'}
     return;
   }

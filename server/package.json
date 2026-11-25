@@ -1,0 +1,29 @@
+{
+  "name": "promasidor-partenaires",
+  "version": "1.0.0",
+  "private": true,
+  "description": "API du formulaire partenaires et espace d'administration sécurisé — Promasidor",
+  "type": "module",
+  "main": "src/server.js",
+  "engines": {
+    "node": ">=20"
+  },
+  "scripts": {
+    "start": "node src/server.js",
+    "migrate": "node scripts/migrate.js",
+    "create-user": "node scripts/create-user.js",
+    "gen-secrets": "node scripts/gen-secrets.js"
+  },
+  "dependencies": {
+    "@node-rs/argon2": "^2.0.2",
+    "connect-pg-simple": "^10.0.0",
+    "dotenv": "^16.4.5",
+    "express": "^5.3.0",
+    "express-rate-limit": "^7.5.0",
+    "express-session": "^1.18.1",
+    "helmet": "^8.0.0",
+    "pg": "^8.13.1",
+    "qrcode": "^1.5.4",
+    "zod": "^4.6.7"
+  }
+}

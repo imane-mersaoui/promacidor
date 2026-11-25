@@ -1,0 +1,36 @@
+# /etc/systemd/system/promasidor.service
+# sudo systemctl daemon-reload && sudo systemctl enable --now promasidor
+[Unit]
+Description=Promasidor - site partenaires et administration
+After=network.target postgresql.service
+Requires=postgresql.service
+
+[Service]
+Type=simple
+User=promasidor
+Group=promasidor
+WorkingDirectory=/var/www/promacidor/server
+ExecStart=/usr/bin/node src/server.js
+Restart=on-failure
+RestartSec=5
+Environment=NODE_ENV=production
+
+# Durcissement : le service ne peut ni élever ses droits ni écrire hors de son dossier
+NoNewPrivileges=true
+PrivateTmp=true
+PrivateDevices=true
+ProtectSystem=strict
+ProtectHome=true
+ProtectKernelTunables=true
+ProtectKernelModules=true
+ProtectControlGroups=true
+RestrictSUIDSGID=true
+RestrictNamespaces=true
+LockPersonality=true
+RestrictAddressFamilies=AF_INET AF_INET6 AF_UNIX
+CapabilityBoundingSet=
+ReadOnlyPaths=/var/www/promacidor
+UMask=0077
+
+[Install]
+WantedBy=multi-user.target
